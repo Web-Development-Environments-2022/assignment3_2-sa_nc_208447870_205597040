@@ -52,6 +52,23 @@ router.get('/favorites', async (req,res,next) => {
   }
 });
 
+//user_id,recipe_id,WhoCooked,WhenCooked,extendedIngredients,steps,images
+router.post('/familyRecipes', async (req,res,next) => {
+  try{
+    const user_id = req.session.user_id;
+    const recipe_id = req.body.recipe_id;
+    const WhoCooked = req.body.WhoCooked;
+    const WhenCooked = req.body.WhenCooked;
+    const extendedIngredients = req.body.extendedIngredients;
+    const steps = req.body.steps;
+    const images = req.body.images;
+    await user_utils.insertFamilyRecipes(user_id,recipe_id,WhoCooked,WhenCooked,extendedIngredients,steps,images);
+    res.status(200).send("The family Recipe successfully saved");
+    } catch(error){
+    next(error);
+  }
+})
+
 router.get("/familyRecipes", async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
@@ -79,6 +96,62 @@ router.get("/myRecipes", async (req, res, next) => {
     next(error);
   }
 });
+
+//user_id,recipe_id,title,readyInMinutes,image,vegan,vegetarian,glutenFree,servings,extendedIngredients,instructions
+router.post('/myRecipes', async (req,res,next) => {
+  try{
+    const user_id = req.session.user_id;
+    const recipe_id = req.body.recipe_id;
+    const title = req.body.title;
+    const readyInMinutes = req.body.readyInMinutes;
+    const image = req.body.image;
+    const vegan = req.body.vegan;
+    const vegetarian = req.body.vegetarian;
+    const glutenFree = req.body.glutenFree;
+    const servings = req.body.servings;
+    const extendedIngredients = req.body.extendedIngredients;
+    const instructions = req.body.instructions;
+    await user_utils.insertMyRecipes(user_id,recipe_id,title,readyInMinutes,image,vegan,vegetarian,glutenFree,servings,extendedIngredients,instructions);
+    res.status(200).send("The Recipe successfully saved");
+    } catch(error){
+    next(error);
+  }
+})
+
+// router.get("/WatchedRecipes", async (req, res, next) => {
+//   try {
+//     const user_id = req.session.user_id;
+//     let favorite_recipes = {};
+//     const recipes_id = await user_utils.getWatchedRecipes(user_id);
+//     let recipes_id_array = [];
+//     recipes_id.map((element) => recipes_id_array.push(element.recipe_id)); //extracting the recipe ids into array
+//     const results = await recipes_utils.getRecipesPreview(recipes_id_array);
+//     res.status(200).send(results);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
+// //user_id,recipe_id,title,readyInMinutes,image,vegan,vegetarian,glutenFree,servings,extendedIngredients,instructions
+// router.post('/WatchedRecipes', async (req,res,next) => {
+//   try{
+//     const user_id = req.session.user_id;
+//     const recipe_id = req.body.recipe_id;
+//     const title = req.body.title;
+//     const readyInMinutes = req.body.readyInMinutes;
+//     const image = req.body.image;
+//     const vegan = req.body.vegan;
+//     const vegetarian = req.body.vegetarian;
+//     const glutenFree = req.body.glutenFree;
+//     const servings = req.body.servings;
+//     const extendedIngredients = req.body.extendedIngredients;
+//     const instructions = req.body.instructions;
+//     await user_utils.insertMyRecipes(user_id,recipe_id,title,readyInMinutes,image,vegan,vegetarian,glutenFree,servings,extendedIngredients,instructions);
+//     res.status(200).send("The Recipe successfully saved");
+//     } catch(error){
+//     next(error);
+//   }
+// })
 
 
 
