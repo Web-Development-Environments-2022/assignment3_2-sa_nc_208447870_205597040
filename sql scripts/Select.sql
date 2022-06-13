@@ -1,2 +1,2 @@
-INSERT INTO favoriterecipes
-VALUES ("undefined",324694);
+INSERT INTO users
+VALUES ("undefined");

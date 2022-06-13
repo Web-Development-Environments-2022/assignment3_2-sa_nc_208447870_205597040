@@ -28,6 +28,11 @@ async function getFamilyRecipes(user_id){
     return recipes_id;
 }
 
+async function getFamilyRecipesID(user_id){
+    const recipes_id = await DButils.execQuery(`select recipe_id where user_id='${user_id}'`);
+    return recipes_id;
+}
+
 async function getMyRecipes(user_id){
     const recipes_id = await DButils.execQuery(`select recipe_id from MyRecipes where user_id='${user_id}'`);
     return recipes_id;
@@ -48,3 +53,4 @@ exports.getFamilyRecipes = getFamilyRecipes;
 exports.getMyRecipes = getMyRecipes;
 exports.insertFamilyRecipes = insertFamilyRecipes;
 exports.insertMyRecipes=insertMyRecipes;
+exports.getFamilyRecipesID=getFamilyRecipesID;
