@@ -1,1 +1,2 @@
-SELECT * FROM mydb.users;
+INSERT INTO favoriterecipes
+VALUES ("undefined",324694);

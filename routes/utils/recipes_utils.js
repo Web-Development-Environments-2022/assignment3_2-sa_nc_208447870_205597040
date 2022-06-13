@@ -38,7 +38,7 @@ async function getRecipeDetails(recipe_id) {
 async function getRecipesPreview(recipes_id_array) {
     var arr =[];
     for (let i = 0; i < recipes_id_array.length; i++) {
-        arr.push(getRecipeA(recipes_id_array[i]))
+        arr.push(await getRecipeA(recipes_id_array[i]))
     }
     return arr;
 }
