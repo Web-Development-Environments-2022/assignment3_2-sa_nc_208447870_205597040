@@ -52,6 +52,7 @@ router.get('/favorites', async (req,res,next) => {
   }
 });
 
+router.get("/alive", (req, res) => res.send("I'm alive"));
 
 
 
