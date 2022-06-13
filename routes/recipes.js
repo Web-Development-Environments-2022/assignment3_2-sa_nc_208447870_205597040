@@ -18,6 +18,15 @@ router.get('/favorites', async (req,res,next) => {
   }
 });
 
+router.get('/random', async (req,res,next) => {
+  try{
+    const results = await recipes_utils.getRandomRecipes();
+    res.status(200).send(results);
+  } catch(error){
+    next(error); 
+  }
+});
+
 router.get("/alive", (req, res) => res.send("I'm alive"));
 router.get("/", (req, res) => res.send("im here"));
 
