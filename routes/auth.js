@@ -4,6 +4,7 @@ const MySql = require("../routes/utils/MySql");
 const DButils = require("../routes/utils/DButils");
 const bcrypt = require("bcrypt");
 
+//user_id
 var user_id = 0;
 
 router.post("/Register", async (req, res, next) => {
@@ -31,6 +32,7 @@ router.post("/Register", async (req, res, next) => {
       user_details.password,
       parseInt(process.env.bcrypt_saltRounds)
     );
+    //adding user_id
     await DButils.execQuery(
       `INSERT INTO users VALUES ('${user_id}','${user_details.username}', '${user_details.firstname}', '${user_details.lastname}',
       '${user_details.country}', '${hash_password}', '${user_details.email}')`
