@@ -4,8 +4,6 @@ const recipes_utils = require("./utils/recipes_utils");
 const user_utils = require("./utils/user_utils");
 const DButils = require("./utils/DButils");
 
-
-
 router.get('/random', async (req,res,next) => {
   try{
     const results = await recipes_utils.getRandomRecipes();
@@ -15,11 +13,40 @@ router.get('/random', async (req,res,next) => {
   }
 });
 
+router.get('/SearchByFood', async (req,res,next) => {
+  try{
+    const results = await recipes_utils.SearchByFood();
+    res.status(200).send(results);
+  } catch(error){
+    next(error); 
+  }
+});
+
 router.get("/alive", (req, res) => res.send("I'm alive"));
 router.get("/", (req, res) => res.send("im here"));
 
+router.get("/search", async (req, res, next) => {
+  try{
+    const query = req.query.query;
+    const cuisine  = req.query.cuisine;
+    const diet = req.query.diet;
+    const intolerances = req.query.intolerances;
+    const number = req.query.number;
+    
+  let recipes = await recipes_utils.searchRecipes(query, cuisine , diet, intolerances, number);
+  let answer = [];
 
+  for (let i = 0; i < recipes.length; i++) {
+    const recipe = recipes[i];
+    let id = recipe.id;
+    answer.push(id);
+  }
 
+  res.status(200).send(answer);
+  } catch(error){
+    next(error); 
+  }
+});
 
 /**
  * This path returns a full details of a recipe by its id
@@ -33,8 +60,8 @@ router.get("/:recipeId", async (req, res, next) => {
   }
 });
 
+router.use("/", async (error) =>{
 
-
-
+})
 
 module.exports = router;

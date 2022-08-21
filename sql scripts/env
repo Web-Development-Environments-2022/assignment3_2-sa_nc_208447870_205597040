@@ -1,0 +1,14 @@
+user=root
+host=localhost
+DBpass=shacharSQL123
+database=mydb
+tedious_password= Sa12345!
+tedious_server= myserver12345.database.windows.net
+tedious_database=recipeDB
+COOKIE_SECRET=this_is_my_secret
+spooncular_apiKey=d8bf267ae2024affaea3e227e830d054
+bcrypt_saltRound=10
+PORT=3000
+cloud_name=recipescloud
+api_key=
+api_secret=

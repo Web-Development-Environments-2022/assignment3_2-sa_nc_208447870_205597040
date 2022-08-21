@@ -5,7 +5,14 @@ const DButils = require("../routes/utils/DButils");
 const bcrypt = require("bcrypt");
 
 //user_id
-var user_id = 0;
+var user_id;
+
+let userIdSetter = async () => {
+  let res = await DButils.execQuery("SELECT user_id from users order by user_id desc limit 1");
+  user_id = res[0]?.user_id ?? 1;
+}
+
+userIdSetter();
 
 router.post("/Register", async (req, res, next) => {
   try {
@@ -32,12 +39,17 @@ router.post("/Register", async (req, res, next) => {
       user_details.password,
       parseInt(process.env.bcrypt_saltRounds)
     );
+
+    console.log(`Adding user '${user_id}','${user_details.username}', '${user_details.firstname}', '${user_details.lastname}',
+    '${user_details.country}', '${hash_password}', '${user_details.email}'`);
     //adding user_id
     await DButils.execQuery(
       `INSERT INTO users VALUES ('${user_id}','${user_details.username}', '${user_details.firstname}', '${user_details.lastname}',
       '${user_details.country}', '${hash_password}', '${user_details.email}')`
     );
+
     user_id++;
+    console.log("user id incremented to "+user_id);
     res.status(201).send({ message: "user created", success: true });
   } catch (error) {
     next(error);
@@ -49,7 +61,7 @@ router.post("/Login", async (req, res, next) => {
     // check that username exists
     const users = await DButils.execQuery("SELECT username FROM users");
     if (!users.find((x) => x.username === req.body.username))
-      throw { status: 401, message: "Username or Password incorrect" };
+      throw { status: 401, message: "Username or Password incorrect1" };
 
     // check that the password is correct
     const user = (
