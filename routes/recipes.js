@@ -33,18 +33,30 @@ router.get("/search", async (req, res, next) => {
     const intolerances = req.query.intolerances;
     const number = req.query.number;
     
-  let recipes = await recipes_utils.searchRecipes(query, cuisine , diet, intolerances, number);
-  let answer = [];
+    let recipes = await recipes_utils.searchRecipes(query, cuisine , diet, intolerances, number);
+    var answer = [];
 
-  for (let i = 0; i < recipes.length; i++) {
-    const recipe = recipes[i];
-    let id = recipe.id;
-    answer.push(id);
-  }
+    for (let i = 0; i < recipes.length; i++) {
+      const recipe = recipes[i];
+      let id = recipe.id;
+      console.log(id);
+      // console.log(await recipes_utils.getRecipeDetails(id));
+      answer.push((await recipes_utils.getRecipeDetails(id)));
+    }
 
-  res.status(200).send(answer);
+    res.status(200).send(answer);
   } catch(error){
     next(error); 
+  }
+});
+
+router.get("/information", async (req, res, next) => {
+  console.log(req.query.id);
+  try {
+    const recipe = await recipes_utils.getRecipeFull(req.query.id);
+    res.send(recipe);
+  } catch (error) {
+    next(error);
   }
 });
 

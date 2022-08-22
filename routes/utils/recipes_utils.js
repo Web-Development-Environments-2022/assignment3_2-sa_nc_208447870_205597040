@@ -18,12 +18,13 @@ async function Getrandom(){
  */
 
 async function getRecipeInformation(recipe_id) {
-    return await axios.get(`${api_domain}/${recipe_id}/info`, {
+    return await axios.get(`${api_domain}/${recipe_id}/information`, {
         params: {
             includeNutrition: false,
             apiKey: process.env.spooncular_apiKey
         }
     });
+
 }
 
 
@@ -31,7 +32,6 @@ async function getRecipeInformation(recipe_id) {
 async function getRecipeDetails(recipe_id) {
     let recipe_info = await getRecipeInformation(recipe_id);
     let { id, title, readyInMinutes, image, aggregateLikes, vegan, vegetarian, glutenFree } = recipe_info.data;
-
     return {
         id: id,
         title: title,
@@ -41,7 +41,6 @@ async function getRecipeDetails(recipe_id) {
         vegan: vegan,
         vegetarian: vegetarian,
         glutenFree: glutenFree,
-        
     }
 }
 
@@ -55,22 +54,40 @@ async function getRecipesPreview(recipes_id_array) {
 
 async function getRecipeA(recipe_id) {
     let recipe_info = await getRecipeInformation(recipe_id);
-    let { id, title, servings, extendedIngredients, readyInMinutes, image, aggregateLikes, vegan, vegetarian, glutenFree, instructions} = recipe_info.data;
+    let { id, title, readyInMinutes, image, aggregateLikes, vegan, vegetarian, glutenFree } = recipe_info.data;
 
     return {
         id: id,
         title: title,
         readyInMinutes: readyInMinutes,
         image: image,
-        popularity: aggregateLikes,
+        aggregateLikes: aggregateLikes,
         vegan: vegan,
+        vegetarian: vegetarian,
+        glutenFree: glutenFree,
+        
+    }
+
+}
+
+async function getRecipeFull(id_recipe) {
+    console.log(id_recipe);
+    let recipe_info = await getRecipeInformation(id_recipe);
+    let {recipe_id,title,readyInMinutes,analyzedInstructions,image,vegan,vegetarian,glutenFree,servings,extendedIngredients,instructions} = recipe_info.data;
+
+    return {
+        recipe_id: recipe_id,
+        title: title,
+        readyInMinutes: readyInMinutes,
+        image: image,
+        vegan: vegan,
+        analyzedInstructions: analyzedInstructions,
         vegetarian: vegetarian,
         glutenFree: glutenFree,
         servings: servings,
         extendedIngredients: extendedIngredients,
         instructions : instructions,
     }
-
 }
 
 async function getFamilyRecipesPreview(user_id) {
@@ -124,6 +141,8 @@ exports.getRecipes= getRandomRecipes;
 exports.getRecipeA = getRecipeA;
 exports.searchRecipes = searchRecipes;
 exports.WatchedRecipes = WatchedRecipes;
+exports.getRecipeInformation = getRecipeInformation;
+exports.getRecipeFull = getRecipeFull;
 
 
 
